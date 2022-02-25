@@ -1,0 +1,19 @@
+name = "ukraine-will-stand"
+type = "javascript"
+usage_model = "unbound"
+compatibility_flags = []
+workers_dev = true
+compatibility_date = "2022-02-25"
+
+kv_namespaces = [
+  {binding = "KV", id = "", preview_id = ""}
+]
+
+[build]
+command = "yarn build"
+
+[build.upload]
+format = "modules"
+main = "./worker.mjs"
+
+[miniflare]

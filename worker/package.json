@@ -1,0 +1,21 @@
+{
+  "name": "ukraine-will-stand",
+  "version": "0.0.1",
+  "description": "Website for ukrainewillstand.org",
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --format=esm --target=esnext --outfile=dist/worker.mjs"
+  },
+  "keywords": [
+    "ukraine",
+    "will",
+    "stand"
+  ],
+  "author": "global community",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@cloudflare/workers-types": "^3.4.0",
+    "esbuild": "^0.14.23",
+    "miniflare": "^2.3.0",
+    "nanoid": "^3.3.1"
+  }
+}
