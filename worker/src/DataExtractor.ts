@@ -1,4 +1,4 @@
-export default function DataExtractor(data) {
+export default function DataExtractor(data: FormData) {
   // Personal Information
   const firstName = data.get("firstName"),
     lastName = data.get("lastName"),
@@ -28,10 +28,15 @@ export default function DataExtractor(data) {
     buildingNumber = data.get("buildingNumber"),
     apartmentNumber = data.get("apartmentNumber"),
     postalCode = data.get("postalCode");
+  // Validation
+  if(!dateOfBirth) return "Date of Birth is required";
+  if(!dateOfIssue) return "Date of Issue is required";
+  if(!dateOfExpiry) return "Date of Expiry is required";
+  if(!polishIdentificationNumber) return "Polish Identification Number is required/is not valid";
   if(!dateValidator(dateOfBirth?.toString())) return "Invalid date of birth";
   if(!dateValidator(dateOfIssue?.toString())) return "Invalid date of issue";
   if(!dateValidator(dateOfExpiry?.toString())) return "Invalid date of expiry";
-  if(!peselgood(Number(polishIdentificationNumber))) return "Invalid polish identification number";
+  if(typeof polishIdentificationNumber !== "string" || !peselgood(polishIdentificationNumber)) return "Invalid polish identification number";
   return {
     personal:{
       firstName,
@@ -68,20 +73,21 @@ export default function DataExtractor(data) {
   }
 }
 
-function dateValidator(date) {
+function dateValidator(date: string) {
   if(!date) return false;
   const parsedDate = Date.parse(date);
   if(isNaN(parsedDate)) return false;
   return true;
 }
 
-function peselgood(y) {
-  if (y.length == 11) {
+function peselgood(PESELString: string) : Boolean{
+  const PESEL = PESELString.split("").map(e => Number(e));
+  if (PESEL.length == 11) {
     var arr = [1,3,7,9,1,3,7,9,1,3];
     var sum = 0;
     //muliply pesel digits by checksum digits
-    for (var i = 0; i < 10; i++) sum += arr[i] * y[i];
+    for (var i = 0; i < 10; i++) sum += arr[i] * PESEL[i];
     sum = sum%10 == 0 ? 0 : 10-sum%10;
-    return sum == y[10];
+    return sum == PESEL[10];
   } else return false;
 }

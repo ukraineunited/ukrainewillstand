@@ -1,16 +1,16 @@
 import DataExtractor from "./DataExtractor";
-import aggregate from "./Cron";
+import aggregate from "./Aggregator";
 import { nanoid } from "nanoid";
 
 export default {
-  async fetch(req, env) {
+  async fetch(req: Request, env: Environment) {
     const data = await req.formData(),
-      extracted = new DataExtractor(data);
+      extracted = DataExtractor(data);
     if(typeof extracted === "string") return new Response(`Invalid Data: ${extracted}`, { status: 400 });
     await env.KV.put(nanoid(), JSON.stringify(extracted));
     return new Response("OK");
   },
-  async scheduled(event, env, ctx) {
+  async scheduled(event: ScheduledEvent, env: Environment, ctx: ExecutionContext) {
     ctx.waitUntil(aggregate(env));
   }
 };

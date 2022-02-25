@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    // For Cloudflare Workers
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["esnext"],
+    "types": ["@cloudflare/workers-types"],
+
+    // Required by esbuild
+    "isolatedModules": true,
+
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+  },
+  "include": [
+    "src",
+    "types"
+  ]
+}
