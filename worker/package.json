@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Website for ukrainewillstand.org",
   "scripts": {
-    "build": "esbuild src/index.js --bundle --format=esm --target=esnext --outfile=dist/worker.mjs"
+    "build": "esbuild src/index.ts --bundle --format=esm --target=esnext --outfile=dist/worker.mjs",
+    "deploy": "wrangler publish"
   },
   "keywords": [
     "ukraine",
@@ -16,6 +17,7 @@
     "@cloudflare/workers-types": "^3.4.0",
     "esbuild": "^0.14.23",
     "miniflare": "^2.3.0",
-    "nanoid": "^3.3.1"
+    "nanoid": "^3.3.1",
+    "wrangler": "^0.0.17"
   }
 }

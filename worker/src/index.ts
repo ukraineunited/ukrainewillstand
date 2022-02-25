@@ -4,6 +4,8 @@ import { nanoid } from "nanoid";
 
 export default {
   async fetch(req: Request, env: Environment) {
+    if(req.method !== "POST") return new Response("Method not allowed", {status: 405});
+    if(req.headers.get("content-type") !== "application/x-www-form-urlencoded") return new Response("Content-Type not allowed", {status: 415});
     const data = await req.formData(),
       extracted = DataExtractor(data);
     if(typeof extracted === "string") return new Response(`Invalid Data: ${extracted}`, { status: 400 });
