@@ -1,0 +1,48 @@
+version: '1.0'
+
+volumes:
+    postgres:
+    pgadmin:
+
+services:
+    web:
+        image: ukraine_lives_web
+        build: 
+          context: ./backend
+          dockerfile: Dockerfile
+        ports:
+          - "3000:3000"
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "password"
+          PGDATA: "/data/postgres"
+        logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        volumes:
+          - postgres:/data/postgres
+          - ./db_init.sql:/docker-entrypoint-initdb.d/db_init.sql  
+        ports: 
+          - '5438:5432'
+    pgadmin:
+        container_name: ukraine_pgadmin
+        image: "dpage/pgadmin4"
+        environment:
+          PGADMIN_DEFAULT_EMAIL: admin@test.com
+          PGADMIN_DEFAULT_PASSWORD: admin
+          PGADMIN_CONFIG_SERVER_MODE: "False"
+          PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+        volumes:
+          - pgadmin:/var/lib/pgadmin
+          - ./servers.json:/pgadmin4/servers.json
+        ports:
+          - "15433:80"
+        entrypoint:
+          - "/bin/sh"
+          - "-c"
+          - "/bin/echo 'postgres:5432:*:postgres:password' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+        restart: unless-stopped    
