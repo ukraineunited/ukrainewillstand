@@ -1,6 +1,8 @@
 # ukrainewillstand
 Website for ukrainewillstand.org
 
+The purpose of the application and API is to assist refugees either via information, or attaining documentation while on the border. We have a set of APIs that allow us to ingest form data and from that generate necassary documents for refugees. We will also provide information on changes in guidelines, and where they can get further updates based on the country they are choosing to seek asylum from.
+
 Consists of [Frontend](frontend), [Backend](backend)(written in Python), and a [Data Aggregator](worker)(written in JavaScript for [Workers](https://workers.cloudflare.com))
 
 
