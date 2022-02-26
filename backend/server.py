@@ -34,8 +34,8 @@ AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
 
 
 app = Flask(__name__, static_url_path='/public', static_folder='./public')
-app.secret_key = constants.SECRET_KEY
-app.debug = True
+app.secret_key = env.get(constants.SECRET_KEY)
+app.debug = env.get(constants.APP_DEBUG)
 
 
 @app.errorhandler(Exception)
