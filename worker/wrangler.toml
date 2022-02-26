@@ -1,13 +1,13 @@
 name = "ukraine-will-stand"
 type = "javascript"
-account_id = "864cdf76f8254fb5539425299984d766"
+account_id = "c88bfe7bea6d11e0b8db4b5b83b14c38"
 usage_model = "unbound"
 compatibility_flags = []
 workers_dev = true
 compatibility_date = "2022-02-25"
 
 kv_namespaces = [
-  {binding = "KV", id = "184700d0b0d4457a9490c2de864e5190", preview_id = "184700d0b0d4457a9490c2de864e5190"}
+  {binding = "KV", id = "8a198da8ef444da1803589d0ad537e89", preview_id = "8a198da8ef444da1803589d0ad537e89"}
 ]
 
 [build]
