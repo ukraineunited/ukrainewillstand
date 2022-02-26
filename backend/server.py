@@ -12,8 +12,10 @@ from flask import redirect
 from flask import render_template
 from flask import session
 from flask import url_for
+from flask import send_from_directory
+from flask import request
 from authlib.integrations.flask_client import OAuth
-from six.moves.urllib.parse import urlencode
+from urllib.parse import urlencode
 
 from docxtpl import DocxTemplate
 
@@ -29,6 +31,7 @@ AUTH0_CLIENT_SECRET = env.get(constants.AUTH0_CLIENT_SECRET)
 AUTH0_DOMAIN = env.get(constants.AUTH0_DOMAIN)
 AUTH0_BASE_URL = 'https://' + AUTH0_DOMAIN
 AUTH0_AUDIENCE = env.get(constants.AUTH0_AUDIENCE)
+
 
 app = Flask(__name__, static_url_path='/public', static_folder='./public')
 app.secret_key = constants.SECRET_KEY
@@ -109,7 +112,6 @@ def dashboard():
 
 
 @app.route('/api/v1/documents/test', methods=['GET'])
-@requires_auth
 def test_documents():
     """Test Document Generation
     
@@ -118,7 +120,7 @@ def test_documents():
     Return: Generated Document that is saved on the server
     """
     
-    doc = DocxTemplate("documents/templates/test_document.docx")
+    doc = DocxTemplate("backend/documents/templates/test_document.docx")
     context = {
         'date': "TEST DATE",
         'name': "TEST NAME",
@@ -126,10 +128,42 @@ def test_documents():
         'passport_number': "0123456789",
         'location': "TEST LOCATION"
     }
-    doc.render(context)
-    doc.save("documents/completed/test_generated_doc.docx")
+    doc.render(context, autoescape=True)
+    doc.save("backend/documents/completed/test_generated_doc.docx")
     return "Document Generated"
 
+
+@app.route('/api/v1/documents/test', methods=['POST'])
+def test_documents_with_json_request():
+    """Test Document Generation
+    
+    Keyword arguments:
+    none -- NA
+    Return: Generated Document that is saved on the server
+    """
+    request_data = request.get_json()
+    date = request_data['date']
+    name = request_data['name']
+    date_of_birth = request_data['date_of_birth']
+    passport_number = request_data['passport_number']
+    location = request_data['location']
+    
+    doc = DocxTemplate("backend/documents/templates/test_document.docx")
+    context = {
+        'date': date,
+        'name': name,
+        'date_of_birth': date_of_birth,
+        'passport_number': passport_number,
+        'location': location
+    }
+    doc.render(context, autoescape=True)
+    doc.save("backend/documents/completed/test_generated_doc.docx")
+    return "Document Generated"
+
+
+@app.route('/api/v1/document/completed/<filename>', methods=['GET'])
+def serve_documents(filename):
+    return send_from_directory("documents\\completed\\", filename, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=env.get('PORT', 3000))

@@ -110,3 +110,9 @@ dist
 .env/
 venv/
 env/
+
+#vscode config files
+.vscode/
+
+#python cache files
+__pycache__/
