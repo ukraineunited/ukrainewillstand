@@ -15,6 +15,8 @@ from flask import url_for
 from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 
+from docxtpl import DocxTemplate
+
 import constants
 
 ENV_FILE = find_dotenv()
@@ -104,6 +106,29 @@ def dashboard():
     return render_template('dashboard.html',
                            userinfo=session[constants.PROFILE_KEY],
                            userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4))
+
+
+@app.route('/api/v1/documents/test', methods=['GET'])
+@requires_auth
+def test_documents():
+    """Test Document Generation
+    
+    Keyword arguments:
+    none -- NA
+    Return: Generated Document that is saved on the server
+    """
+    
+    doc = DocxTemplate("documents/templates/test_document.docx")
+    context = {
+        'date': "TEST DATE",
+        'name': "TEST NAME",
+        'date_of_birth': "00.00.0000",
+        'passport_number': "0123456789",
+        'location': "TEST LOCATION"
+    }
+    doc.render(context)
+    doc.save("documents/completed/test_generated_doc.docx")
+    return "Document Generated"
 
 
 if __name__ == "__main__":
