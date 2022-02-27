@@ -112,6 +112,7 @@ def dashboard():
 
 
 @app.route('/api/v1/documents/test', methods=['GET'])
+@requires_auth
 def test_documents():
     """Test Document Generation
     
@@ -134,6 +135,7 @@ def test_documents():
 
 
 @app.route('/api/v1/documents/test', methods=['POST'])
+@requires_auth
 def test_documents_with_json_request():
     """Test Document Generation
     
@@ -162,6 +164,7 @@ def test_documents_with_json_request():
 
 
 @app.route('/api/v1/document/completed/<filename>', methods=['GET'])
+@requires_auth
 def serve_documents(filename):
     return send_from_directory("documents\\completed\\", filename, as_attachment=True)
 
