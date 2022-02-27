@@ -1,7 +1,5 @@
 CREATE TABLE IF NOT EXISTS users(
 	user_uuid TEXT,
-	firstname TEXT,
-	lastname TEXT,
 	phone TEXT,
 	email TEXT,
 	created TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
@@ -11,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS notifications (
 	notification_id INT GENERATED ALWAYS AS IDENTITY,
+    user_id TEXT,
 	created TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
 	title TEXT,
 	message TEXT
