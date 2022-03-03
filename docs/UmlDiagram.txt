@@ -1,0 +1,19 @@
+// UkraineWillStand
+// -------------------
+
+
+[fetch]-.-[note: POST only]
+[Worker]->[fetch]->[DataExtractor]
+[Worker]->[scheduled]->[Aggregator]
+
+[DataExtractor]-.-[note: Extracts data for generating documents]
+
+[Frontend]
+
+
+[Backend]->[server;(Flask)]
+[server]->[login]
+[server]->[logout]
+[server]->[dashboard]
+[server]->[test]
+[server]->[completed]
