@@ -12,8 +12,9 @@
 
 
 [Backend]->[server;(Flask)]
-[server]->[login]
+[server]->[login | redirect_uri; audience]
 [server]->[logout]
-[server]->[dashboard]
-[server]->[test]
-[server]->[completed]
+[server]->[dashboard | userinfo; userinfo_pretty]
+[server]->[documents/test (GET) | context (json: date; name; date of birth; passport_number; location ) ]
+[server]->[documents/test (POST) | context (json: date; name; date of birth; passport_number; location ) ]
+[server]->[completed\<filename\>]
